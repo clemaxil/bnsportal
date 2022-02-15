@@ -1,5 +1,5 @@
-!/upload
-/upload/*
+!/upload/session
+/upload/session/*
 !/vendor
 /vendor/*
 !/testscoverage

@@ -69,7 +69,7 @@ if ($dataView['error'] === 1) {
 
       echo '</p><hr><p><i class="far fa-folder-open"></i> ' . $mod_lang['document_my_files'];
 
-      if (is_array($dataView['uploads'])) {
+      if (is_array($dataView['uploads']) && count($dataView['uploads']) > 0) {
         foreach ($dataView['uploads'] as $upload) {
           echo '<li><i class="fas fa-file-pdf"></i> <a href="' . appHelperUrl_link($dataView['lang'], 'calendar', 'download', $dataView['id'], 'document_directory=myfiles&document_id=&document_name=' . $upload['name']) . '">' . $upload['name'] . '</a></li>';
         }
