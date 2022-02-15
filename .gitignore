@@ -1,7 +1,1 @@
-!/upload/session
-/upload/session/*
-!/vendor
-/vendor/*
-!/testscoverage
-/testscoverage/*
 config.php

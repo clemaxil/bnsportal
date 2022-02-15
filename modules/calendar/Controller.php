@@ -245,9 +245,8 @@ class CalendarController extends Controller
 					);
 				}
 			}
-			$this->dataView['uploads'] = $uploads;
 		}
-
+		$this->dataView['uploads'] = $uploads;
 
 
 
