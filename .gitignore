@@ -1,4 +1,4 @@
 /upload/*
 /vendor/*
-/testsonverage/*
+/testscoverage/*
 config.php
