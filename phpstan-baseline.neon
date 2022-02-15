@@ -1,0 +1,35 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Access to an undefined property App\\\\View\\:\\:\\$app_lang\\.$#"
+			count: 2
+			path: src/View.php
+
+		-
+			message: "#^Access to an undefined property App\\\\View\\:\\:\\$id\\.$#"
+			count: 2
+			path: src/View.php
+
+		-
+			message: "#^Access to an undefined property App\\\\View\\:\\:\\$lang\\.$#"
+			count: 2
+			path: src/View.php
+
+		-
+			message: "#^Access to an undefined property App\\\\View\\:\\:\\$mod_lang\\.$#"
+			count: 3
+			path: src/View.php
+
+		-
+			message: "#^Access to an undefined property App\\\\View\\:\\:\\$module\\.$#"
+			count: 2
+			path: src/View.php
+
+		- "#^Function appHelperUrl_redirect not found.$#"
+		- "#^Function appHelperUrl_href not found.$#"
+		- "#^Function appHelperMail_send not found.$#"
+		- "#Instantiated class ICal#"
+		- "#Call to method events#"
+		- "#Call to method sortEventsWithOrder#"
+		- "#Access to an undefined property object#"
+
