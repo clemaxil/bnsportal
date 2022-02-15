@@ -1,4 +1,7 @@
+!/upload
 /upload/*
+!/vendor
 /vendor/*
-/testscoverage2/*
+!/testscoverage
+/testscoverage/*
 config.php
