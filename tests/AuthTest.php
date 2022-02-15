@@ -23,13 +23,53 @@ class AuthTest extends TestCase
 	 * 
 	 * @return void 
 	 */
-	public function testAuthControllerIndexLogForm()
+	public function testAuthControllerIndexLoginForm()
 	{
 		unset($_SESSION['user_id']);
 		$_REQUEST['lang'] = 'fr';
 		$auth = new AuthController();
-		$this->assertMatchesRegularExpression('#main class="form-signin#', $auth->index(), 'Auth index log form');
+		$this->assertMatchesRegularExpression('#main class="form-signin#', $auth->index(), 'Auth index login form');
 	}
+
+	/**
+	 * 
+	 * @return void 
+	 */
+	// public function testAuthControllerIndexPost()
+	// {
+	// 	unset($_SESSION['user_id']);
+	// 	$_REQUEST['lang'] = 'fr';
+	// 	$_SERVER['REQUEST_METHOD'] = 'POST';
+	// 	$_POST['email'] = 'test@test.com';
+	// 	$_POST['password'] = '1234';
+	// 	$auth = new AuthController();
+	// 	$this->assertMatchesRegularExpression('#login form is posted#', $auth->index(), 'Auth index post form');
+	// }
+
+
+	/**
+	 * 
+	 * @return void 
+	 */
+	public function testAuthControllerLoginFailed()
+	{
+		$_POST['email'] = 'test@test.com';
+		$_POST['password'] = '1234';
+		$auth = new AuthController();
+		$this->assertFalse($auth->login());
+	}
+
+
+	/**
+	 * 
+	 * @return void 
+	 */
+	public function testAuthControllerPasswordForgot()
+	{
+		$auth = new AuthController();
+		$this->assertMatchesRegularExpression('#password-forgot#', $auth->passwordForgot(), 'Auth password forgot');
+	}
+
 
 	/**
 	 * 

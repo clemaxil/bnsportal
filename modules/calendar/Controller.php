@@ -27,20 +27,19 @@ class CalendarController extends Controller
 	 */
 	protected $dataView;
 
-	function __construct()
-	{
-		if (empty($_SESSION['user_id'])) { //user must be connected
-			appHelperUrl_redirect('auth', 'index', '', '', $_REQUEST['lang'], '');
-		}
-	}
 
 
 	/**
 	 * Calendar view with event
-	 * @return void 
+	 * @return string
 	 */
-	public function index(): void
+	public function index(): string
 	{
+
+		if (empty($_SESSION['user_id'])) {
+			appHelperUrl_redirect($_REQUEST['lang'], 'auth', 'index');
+			return ('user must be connected');
+		}
 
 		$this->dataView['error'] = 0;
 
@@ -81,7 +80,7 @@ class CalendarController extends Controller
 		}
 		$view = new View();
 		$view->setView(__DIR__ . '/templates/default.php');
-		echo $view->render($this->dataView);
+		return $view->render($this->dataView);
 	}
 
 
@@ -566,7 +565,7 @@ class CalendarController extends Controller
 	 * @param string $fieldValue 
 	 * @return string 
 	 */
-	private function setfieldType($fieldLabel, $fieldName, $fieldType, $fieldReadOnly = '', $fieldOptions = [], $fieldValue = '')
+	public function setfieldType($fieldLabel, $fieldName, $fieldType, $fieldReadOnly = '', $fieldOptions = [], $fieldValue = '')
 	{
 		$fieldDisabled = '';
 		if ($fieldReadOnly == 1) {

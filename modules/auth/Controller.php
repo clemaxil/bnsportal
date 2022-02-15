@@ -70,11 +70,11 @@ class AuthController extends Controller
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$this->passwordInitSendByEmail($_POST['email']);
 			appHelperUrl_redirect($_REQUEST['lang'], 'auth', 'index');
-		} else {
-			$view = new View();
-			$view->setView(__DIR__ . '/templates/passwordForgot.php');
-			return $view->render([]);
 		}
+
+		$view = new View();
+		$view->setView(__DIR__ . '/templates/passwordForgot.php');
+		return $view->render([]);
 	}
 
 
@@ -124,7 +124,7 @@ class AuthController extends Controller
 	 * @return bool 
 	 * @throws PDOException 
 	 */
-	private function login()
+	public function login()
 	{
 		$email = $this->cleanInputString($_POST['email']);
 		$password = $this->cleanInputString($_POST['password']);
