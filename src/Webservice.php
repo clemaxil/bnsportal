@@ -27,15 +27,18 @@ class Webservice
 	 */
 	public static function http($url)
 	{
-		$client = HttpClient::create(['verify_peer' => false, 'verify_host' => false]);
-		$response = $client->request('GET', $url);
-		$statusCode = $response->getStatusCode();
-		if ($statusCode === 200) {
-			$content = $response->getContent();
-			return json_decode($content);
-		} else {
-			return 'Webservices retrieve error';
-		}
+		//REGRESSION PHP 7.3
+		return self::curl($url);
+		//ONLY PHP 7.4
+		// $client = HttpClient::create(['verify_peer' => false, 'verify_host' => false]);
+		// $response = $client->request('GET', $url);
+		// $statusCode = $response->getStatusCode();
+		// if ($statusCode === 200) {
+		// 	$content = $response->getContent();
+		// 	return json_decode($content);
+		// } else {
+		// 	return 'Webservices retrieve error';
+		// }
 	}
 
 
