@@ -29,6 +29,7 @@ class Webservice
 	{
 		//REGRESSION PHP 7.3
 		return self::curl($url);
+		
 		//ONLY PHP 7.4
 		// $client = HttpClient::create(['verify_peer' => false, 'verify_host' => false]);
 		// $response = $client->request('GET', $url);
