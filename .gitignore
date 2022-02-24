@@ -1,2 +1,12 @@
 config.php
-.phpunit.result.cache
+
+# archives ignore list
+*.tgz
+*.zip
+*.gz
+
+# ignore hidden file
+.* 
+
+# sauf
+!.gitignore

@@ -97,7 +97,9 @@ class Webservice
 				),
 			)
 		);
+		
 		$content = file_get_contents($url, false, $context);
+
 		if ($content === false) {
 			return 'Webservices retrieve error';
 		} else {
