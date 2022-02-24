@@ -10,10 +10,6 @@ require_once(__DIR__ . '/includes/ics-parser-master/src/ICal/Event.php');
 
 use App\Webservice;
 use ICal\ICal;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 
 /**
  * Class Calendar for formers
@@ -144,10 +140,6 @@ class CalendarController extends Controller
 	 * get all PDF documents avaible on crm & docs submitted
 	 * 
 	 * @return void 
-	 * @throws TransportExceptionInterface 
-	 * @throws RedirectionExceptionInterface 
-	 * @throws ClientExceptionInterface 
-	 * @throws ServerExceptionInterface 
 	 * @throws Exception 
 	 */
 	public function document()
@@ -262,13 +254,8 @@ class CalendarController extends Controller
 
 
 	/**
-	 * view details session
-	 * 
+	 * View detail session
 	 * @return void 
-	 * @throws TransportExceptionInterface 
-	 * @throws RedirectionExceptionInterface 
-	 * @throws ClientExceptionInterface 
-	 * @throws ServerExceptionInterface 
 	 * @throws Exception 
 	 */
 	public function detail()
@@ -345,10 +332,6 @@ class CalendarController extends Controller
 	 * list view date_session
 	 * 
 	 * @return void 
-	 * @throws TransportExceptionInterface 
-	 * @throws RedirectionExceptionInterface 
-	 * @throws ClientExceptionInterface 
-	 * @throws ServerExceptionInterface 
 	 * @throws Exception 
 	 */
 	public function date()
@@ -402,10 +385,6 @@ class CalendarController extends Controller
 	 * registrations view with score(notes)
 	 * 
 	 * @return void 
-	 * @throws TransportExceptionInterface 
-	 * @throws RedirectionExceptionInterface 
-	 * @throws ClientExceptionInterface 
-	 * @throws ServerExceptionInterface 
 	 * @throws Exception 
 	 */
 	public function inscrit()
@@ -501,10 +480,6 @@ class CalendarController extends Controller
 	 * update fields and score/notes
 	 * 
 	 * @return void 
-	 * @throws TransportExceptionInterface 
-	 * @throws RedirectionExceptionInterface 
-	 * @throws ClientExceptionInterface 
-	 * @throws ServerExceptionInterface 
 	 * @throws Exception 
 	 */
 	public function update()

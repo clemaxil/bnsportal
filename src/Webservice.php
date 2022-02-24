@@ -19,11 +19,11 @@ class Webservice
 	 * 
 	 * @param mixed $url 
 	 * @return mixed 
-	 * @throws TransportExceptionInterface 
-	 * @throws RedirectionExceptionInterface 
-	 * @throws ClientExceptionInterface 
-	 * @throws ServerExceptionInterface 
-	 * @throws Exception 
+	//  * @throws TransportExceptionInterface 
+	//  * @throws RedirectionExceptionInterface 
+	//  * @throws ClientExceptionInterface 
+	//  * @throws ServerExceptionInterface 
+	//  * @throws Exception 
 	 */
 	public static function http($url)
 	{
