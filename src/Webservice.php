@@ -86,7 +86,17 @@ class Webservice
 	 */
 	public static function file($url)
 	{
-		$context = stream_context_create(array('http' => array('header' => 'Connection: close\r\n')));
+		$context = stream_context_create(
+			array(
+				'ssl' => array(
+					"verify_peer"=>false,
+					"verify_peer_name"=>false
+				),
+				'https' => array(
+					'header' => 'Connection: close\r\n'
+				),
+			)
+		);
 		$content = file_get_contents($url, false, $context);
 		if ($content === false) {
 			return 'Webservices retrieve error';
