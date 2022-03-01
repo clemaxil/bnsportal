@@ -3,11 +3,11 @@
 namespace App;
 
 use Exception;
-use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+// use Symfony\Component\HttpClient\HttpClient;
+// use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+// use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+// use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+// use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 
 /**
  * Get webservices different methods
@@ -97,9 +97,7 @@ class Webservice
 				),
 			)
 		);
-		
 		$content = file_get_contents($url, false, $context);
-
 		if ($content === false) {
 			return 'Webservices retrieve error';
 		} else {
