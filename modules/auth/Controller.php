@@ -71,10 +71,11 @@ class AuthController extends Controller
 			$this->passwordInitSendByEmail($_POST['email']);
 			appHelperUrl_redirect($_REQUEST['lang'], 'auth', 'index');
 		}
-
-		$view = new View();
-		$view->setView(__DIR__ . '/templates/passwordForgot.php');
-		return $view->render([]);
+		else{
+			$view = new View();
+			$view->setView(__DIR__ . '/templates/passwordForgot.php');
+			return $view->render([]);
+		}
 	}
 
 
