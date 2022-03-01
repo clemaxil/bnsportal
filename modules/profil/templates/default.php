@@ -28,32 +28,35 @@ if ($lang == 'en') {
     //echo '<p><b>' . $mod_lang['birthdate'] . ':</b> ' . appHelperI18n_convertDateFromTimezone($dataView['birthdate'], "GMT", "Europe/Paris", $date_format) . '</p>';
     //echo '<p><b>'.$mod_lang['lang'].':</b> '.$emoji_flags[strtoupper($dataView['lang'])].' '.strtoupper($dataView['lang']).'</p>';
 
-    echo "<p><b>" . $mod_lang['calendars'] . ":</b>";
-    echo "<ul>";
 
-    foreach (json_decode($_SESSION['user_calendars'])->data as $calendar) {
-        $calendar_name = '';
+    if($dataView['is_former']){
+        echo "<p><b>" . $mod_lang['calendars'] . ":</b>";
+        echo "<ul>";
 
-        if (strpos($calendar->url, "_validate.ics") != false) {
-            $calendar_name = $mod_lang['trainings'];
+        foreach (json_decode($_SESSION['user_calendars'])->data as $calendar) {
+            $calendar_name = '';
+
+            if (strpos($calendar->url, "_validate.ics") != false) {
+                $calendar_name = $mod_lang['trainings'];
+            }
+
+            if (strpos($calendar->url, "_meetings.ics") != false) {
+                $calendar_name = $mod_lang['meetings'];
+            }
+
+            if (strpos($calendar->url, "_calls.ics") != false) {
+                $calendar_name = $mod_lang['calls'];
+            }
+
+            if (!empty($calendar_name)) {
+                echo '<li><a href="#" onclick="javascript:location.href=\'' . $calendar->url . '\';">';
+                echo $calendar_name . '</a></li>';
+            }
         }
 
-        if (strpos($calendar->url, "_meetings.ics") != false) {
-            $calendar_name = $mod_lang['meetings'];
-        }
-
-        if (strpos($calendar->url, "_calls.ics") != false) {
-            $calendar_name = $mod_lang['calls'];
-        }
-
-        if (!empty($calendar_name)) {
-            echo '<li><a href="#" onclick="javascript:location.href=\'' . $calendar->url . '\';">';
-            echo $calendar_name . '</a></li>';
-        }
+        echo "</ul>
+            </p>";
     }
-
-    echo "</ul>
-        </p>";
 
     ?>
 </div>

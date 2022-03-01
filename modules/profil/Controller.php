@@ -6,6 +6,7 @@ use App\View;
 use App\Controller;
 
 include_once(__DIR__ . '/../../helpers/appHelperUrl.php');
+include_once(__DIR__ . '/../../helpers/appHelperRole.php');
 
 /**
  * Class MyProfile
@@ -13,6 +14,13 @@ include_once(__DIR__ . '/../../helpers/appHelperUrl.php');
  */
 class ProfilController extends Controller
 {
+	/**
+	 * 
+	 * @var array
+	 */
+	protected $dataView;
+	
+	
 	/**
 	 * Show Homepage("Dashboard" for portal)
 	 * @return string 
@@ -24,8 +32,10 @@ class ProfilController extends Controller
 			return ('user must be connected');
 		}
 
+		$this->dataView['is_former'] = appHelperRole_isGranted("former");
+
 		$view = new View();
 		$view->setView(__DIR__ . '/templates/default.php');
-		return $view->render([]);
+		return $view->render($this->dataView);
 	}
 }
