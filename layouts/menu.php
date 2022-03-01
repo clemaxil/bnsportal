@@ -25,15 +25,40 @@ if (isset($_REQUEST['lang']) && !empty($_REQUEST['lang'])) {
 
         <?php if (!empty($_SESSION['user_id'])) : ?>
           <li class="nav-item">
-            <a rel="noopener" class="nav-link <?php if ($module == "profil") {
-                                                echo 'active';
-                                              } ?>" href="<?= appHelperUrl_link($_REQUEST['lang'], 'profil', 'index'); ?>"><i class="fas fa-user"></i>&nbsp;<?= $app_lang['mod_profil']; ?></a>
+            <a rel="noopener" class="nav-link 
+              <?php if ($module == "profil") {
+                echo 'active';
+              } ?>" href="<?= appHelperUrl_link($_REQUEST['lang'], 'profil', 'index'); ?>"><i class="fas fa-user"></i>&nbsp;<?= $app_lang['mod_profil']; ?></a>
           </li>
+         
+          
+          <?php if(appHelperRole_isGranted("administrator") || appHelperRole_isGranted("learner"))
+          {
+            ?>
+          <li class="nav-item">
+            <a rel="noopener" class="nav-link <?php if ($module == "session") {
+                                                echo 'active';
+                                              } ?>" href="<?= appHelperUrl_link($_REQUEST['lang'], 'session', 'index'); ?>">
+                                              <i class="fa fa-list"></i>&nbsp;<?= $app_lang['mod_session']; ?></a>
+          </li>
+          <?php
+            }
+          ?>
+
+          
+          <?php if(appHelperRole_isGranted("former"))
+          {
+            ?>
           <li class="nav-item">
             <a rel="noopener" class="nav-link <?php if ($module == "calendar") {
                                                 echo 'active';
                                               } ?>" href="<?= appHelperUrl_link($_REQUEST['lang'], 'calendar', 'index'); ?>"><i class="fas fa-calendar-alt"></i>&nbsp;<?= $app_lang['mod_calendar']; ?></a>
           </li>
+          <?php
+            }
+          ?>
+
+
           <li class="nav-item">
             <a rel="noopener" class="nav-link" href="<?= appHelperUrl_link($_REQUEST['lang'], 'auth', 'logout'); ?>"><i class="fas fa-sign-out-alt"></i>&nbsp;<?= $app_lang['mod_auth_signout']; ?></a>
           </li>

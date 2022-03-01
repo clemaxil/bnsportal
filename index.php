@@ -18,6 +18,7 @@ session_start();
 require __DIR__ . '/vendor/autoload.php';
 //Helper make url
 require_once(__DIR__ . '/helpers/appHelperUrl.php');
+require_once(__DIR__ . '/helpers/appHelperRole.php');
 
 
 //Init request
