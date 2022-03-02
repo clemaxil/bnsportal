@@ -1,1 +1,1 @@
-#bnsportal
+# Legacy php 7.3 no framework bnsportal
