@@ -3,6 +3,16 @@
 $mod_lang = array();
 
 //$mod_lang['title'] = 'My Trainings';
+
+$mod_lang['list_reference'] = 'Réf';
+$mod_lang['list_title'] = 'Title';
+$mod_lang['list_status'] = 'Status';
+$mod_lang['list_type'] = 'Type';
+$mod_lang['list_modalite'] = 'modality';
+$mod_lang['list_start'] = 'Start';
+$mod_lang['list_end'] = 'End';
+$mod_lang['list_duration'] = 'Duration';
+
 $mod_lang['button_update_label'] = 'Update';
 
 $mod_lang['submenu_detail'] = 'Details';

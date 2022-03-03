@@ -3,6 +3,18 @@
 $mod_lang = array();
 
 //$mod_lang['title'] = 'Mes formations';
+
+
+$mod_lang['list_reference'] = 'Réf';
+$mod_lang['list_title'] = 'Titre';
+$mod_lang['list_status'] = 'Statut';
+$mod_lang['list_type'] = 'Type';
+$mod_lang['list_modalite'] = 'Modalité';
+$mod_lang['list_start'] = 'Début';
+$mod_lang['list_end'] = 'Fin';
+$mod_lang['list_duration'] = 'Durée';
+
+
 $mod_lang['button_update_label'] = 'Mettre à jour';
 
 $mod_lang['submenu_detail'] = 'Détails';

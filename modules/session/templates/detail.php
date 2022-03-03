@@ -7,22 +7,6 @@ include __DIR__ . '/../../../layouts/menu.php';
 require_once(__DIR__ . '/../../../helpers/appHelperI18n.php');
 
 
-if ($dataView['save'] == "ok") {
-  echo '<div class="alert alert-dismissible alert-success">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Success: </strong> ' . $dataView['save-message'] . '</div>';
-}
-
-
-if ($dataView['save'] == "false") {
-  echo '<div class="alert alert-dismissible alert-warning">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Warning : </strong> ' . $dataView['save-message'] . '</div>';
-}
-
-
-
-
 if ($dataView['error'] === 1) {
   echo '<div class="alert alert-dismissible alert-danger">
 				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -43,16 +27,16 @@ if ($dataView['error'] === 1) {
 
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link active" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'detail', $dataView['id']); ?>"><i class="fas fa-clipboard"></i> <?= $mod_lang['submenu_detail']; ?></a>
+        <a class="nav-link active" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'detail', $dataView['id']); ?>"><i class="fas fa-clipboard"></i> <?= $mod_lang['submenu_detail']; ?></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'date', $dataView['id']); ?>"><i class="fas fa-clock"></i> <?= $mod_lang['submenu_date']; ?></a>
+        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'date', $dataView['id']); ?>"><i class="fas fa-clock"></i> <?= $mod_lang['submenu_date']; ?></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'inscrit', $dataView['id']); ?>"><i class="fas fa-user-graduate"></i> <?= $mod_lang['submenu_registred']; ?></a>
+        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'inscrit', $dataView['id']); ?>"><i class="fas fa-user-graduate"></i> <?= $mod_lang['submenu_registred']; ?></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'document', $dataView['id']); ?>"><i class="fas fa-folder-open"></i> <?= $mod_lang['submenu_document']; ?></a>
+        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'document', $dataView['id']); ?>"><i class="fas fa-folder-open"></i> <?= $mod_lang['submenu_document']; ?></a>
       </li>
     </ul>
 
@@ -72,21 +56,6 @@ if ($dataView['error'] === 1) {
       echo '<br/ ><b>' . $mod_lang['number_of_participants'] . ':</b> ' . $dataView['session']->bns_session_nbstagiaire_c;
       echo '</p>';
       echo '<p></p>';
-
-      if (is_array($dataView['session_fields'])) {
-        echo '<br /><hr>';
-        echo '<form name="sessionupdate" method="post" action="index.php">';
-        echo '<input type="hidden" name="q" value="' . $dataView['lang'] . '/calendar/update/' . $dataView['id'] . '">';
-        echo '<input type="hidden" name="tabname" value="session">';
-        echo '<input type="hidden" name="id" value="' . $dataView['id'] . '">';
-        echo '<input type="hidden" name="sessionid" value="' . $dataView['session']->id . '">';
-        echo '<p><b><span class="text-primary"><i class="fas fa-comment-dots"></i> ' . $mod_lang['notes'] . '</span></b>';
-        foreach ($dataView['session_fields'] as $session_fields) {
-          echo $session_fields;
-        }
-        echo '<br /><div align="right"><button type="submit" class="btn btn-primary btn-sm">' . $mod_lang['button_update_label'] . '</button></div>';
-        echo "</p></form>";
-      }
 
       echo '</div>';
       ?>

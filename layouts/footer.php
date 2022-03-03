@@ -4,8 +4,9 @@
 	$endTime =  microtime(true);
 	$timeStr = $app_lang['execution_time'] . ': ' . number_format((($endTime - $startTime) * 1), '5', '.', ' ') . ' s - ' . $app_lang['memory_usage'] . ': ' . round((round(memory_get_usage() / 1024 * 100) / 100), 2) . " Kb";
 
-	?>
- <!-- content end -->
+?>
+
+<br />
  <p style="text-align: center;"><span style="font-size:smaller;"><?= $app_lang['powered_by'] ?> <a href="https://www.bluenote-systems.com" target="_bns">Blue note systems</a></span>
  	<br /><span style="font-size:10px"><i><?= $timeStr ?></i></span>
  <p>
