@@ -8,25 +8,26 @@ include __DIR__ . '/../../../layouts/menu.php';
 ?>
 
 <div style="text-align:center;">
-  <h4><?= $dataView['session']->numero . ", " . $dataView['session']->name; ?></h4>
+  <h4><?= $dataView['session']->numero . " " . $dataView['session']->name; ?></h4>
 </div>
 
 <div style="text-align:left;">
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'detail', $dataView['id']); ?>"><i class="fas fa-clipboard"></i> <?= $mod_lang['submenu_detail']; ?></a>
+      <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'detail', $dataView['id']); ?>"><i class="fas fa-clipboard"></i> <?= $mod_lang['submenu_detail']; ?></a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'date', $dataView['id']); ?>"><i class="fas fa-clock"></i> <?= $mod_lang['submenu_date']; ?></a>
+      <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'date', $dataView['id']); ?>"><i class="fas fa-clock"></i> <?= $mod_lang['submenu_date']; ?></a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'inscrit', $dataView['id']); ?>"><i class="fas fa-user-graduate"></i> <?= $mod_lang['submenu_registred']; ?></a>
+      <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'inscrit', $dataView['id']); ?>"><i class="fas fa-user-graduate"></i> <?= $mod_lang['submenu_registred']; ?></a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'document', $dataView['id']); ?>"><i class="fas fa-folder-open"></i> <?= $mod_lang['submenu_document']; ?></a>
+      <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'document', $dataView['id']); ?>"><i class="fas fa-folder-open"></i> <?= $mod_lang['submenu_document']; ?></a>
     </li>
   </ul>
 </div>
+
 
 <div id="myTabContent" class="tab-content">
   <div style="text-align: center">

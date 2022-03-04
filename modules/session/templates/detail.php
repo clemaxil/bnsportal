@@ -16,7 +16,7 @@ if ($dataView['error'] === 1) {
 
   <div style="text-align:center;">
     <h4>
-      <?= $dataView['session']->numero . ", " . $dataView['session']->name; ?>
+      <?= $dataView['session']->numero . " " . $dataView['session']->name; ?>
     </h4>
   </div>
 
@@ -53,7 +53,7 @@ if ($dataView['error'] === 1) {
       echo '<br/ ><b>' . $mod_lang['public'] . ':</b> ' . html_entity_decode($dataView['session']->publicsession);
       echo '<br/ ><b>' . $mod_lang['program'] . ':</b> ' . html_entity_decode($dataView['session']->trainingprogram);
       echo '<br/ ><b>' . $mod_lang['prerequisites'] . ':</b> ' . html_entity_decode($dataView['session']->requiredpostsession);
-      echo '<br/ ><b>' . $mod_lang['number_of_participants'] . ':</b> ' . $dataView['session']->bns_session_nbstagiaire_c;
+      // echo '<br/ ><b>' . $mod_lang['number_of_participants'] . ':</b> ' . $dataView['session']->bns_session_nbstagiaire_c;
       echo '</p>';
       echo '<p></p>';
 

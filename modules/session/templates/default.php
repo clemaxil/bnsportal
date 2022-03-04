@@ -3,9 +3,14 @@ if (!defined('APP_ENTRY') || !APP_ENTRY) die('Not A Valid Entry Point');
 
 include __DIR__ . '/../../../layouts/header.php';
 include __DIR__ . '/../../../layouts/menu.php';
+
+if ($dataView['error'] === 1) {
+	echo '<div class="alert alert-dismissible alert-danger">
+				  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				  <strong>Error : </strong> ' . $dataView['error-message'] . '</div>';
+} else {
 //Content Start
 ?>
-
 
 
 <table class="table table-hover">
@@ -68,6 +73,7 @@ include __DIR__ . '/../../../layouts/menu.php';
 
 
 <?php
+}
 //Content End
 include __DIR__ . '/../../../layouts/footer.php';
 ?>

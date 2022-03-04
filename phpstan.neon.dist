@@ -3,6 +3,8 @@ includes:
 
 parameters:
     level: 6
+    scanDirectories: 
+        - helpers
     checkMissingIterableValueType: false
     paths:
         - src

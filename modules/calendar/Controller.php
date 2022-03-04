@@ -105,7 +105,7 @@ class CalendarController extends Controller
 		$this->dataView['session'] = $webserviceObj->session;
 
 		$upload_dir = 'upload/session/' . $this->dataView['session']->id . '/'
-			. $_SESSION['user_id'] . '/'
+			. $_SESSION['user_id_ext'] . '/'
 			. $this->dataView['document_directory'] . '/';
 
 
@@ -184,16 +184,16 @@ class CalendarController extends Controller
 				mkdir($upload_dir . $this->dataView['session']->id, 0777);
 			}
 
-			if (!is_dir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id'])) {
-				mkdir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id'], 0777);
+			if (!is_dir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id_ext'])) {
+				mkdir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id_ext'], 0777);
 			}
 
-			if (!is_dir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id'] . '/myfiles')) {
-				mkdir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id'] . '/myfiles', 0777);
+			if (!is_dir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/myfiles')) {
+				mkdir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/myfiles', 0777);
 			}
 
-			if (!is_dir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id'] . '/allfiles')) {
-				mkdir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id'] . '/allfiles', 0777);
+			if (!is_dir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/allfiles')) {
+				mkdir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/allfiles', 0777);
 			}
 
 
@@ -205,7 +205,7 @@ class CalendarController extends Controller
 				} else {
 					$tmp_name = $_FILES["formFile"]["tmp_name"];
 					$name = basename($_FILES["formFile"]["name"]);
-					move_uploaded_file($tmp_name, $upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id'] . '/myfiles/' . $name);
+					move_uploaded_file($tmp_name, $upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/myfiles/' . $name);
 					$upload_message = '<p class="text-success">' . $phpFileUploadErrors[$_FILES['formFile']['error']] . '</p>';
 
 					//creation de la note avec le fichier dans le crm
@@ -226,13 +226,13 @@ class CalendarController extends Controller
 
 		//list uploads directory
 		$uploads = [];
-		if (is_dir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id'] . '/myfiles')) {
-			$cdir = scandir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id'] . '/myfiles');
+		if (is_dir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/myfiles')) {
+			$cdir = scandir($upload_dir . $this->dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/myfiles');
 			foreach ($cdir as $key => $value) {
 				if ('.' !== $value && '..' !== $value) {
 					$uploads[] = array(
 						'name' => $value,
-						'link' => 'upload/session/' . $this->dataView['session']->id . '/' . $_SESSION['user_id'] . '/myfiles/' . $value
+						'link' => 'upload/session/' . $this->dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/myfiles/' . $value
 					);
 				}
 			}

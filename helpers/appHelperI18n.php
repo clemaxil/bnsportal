@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * 
+ * @param mixed $date 
+ * @param mixed $timezone 
+ * @param mixed $timezone_to 
+ * @param mixed $format 
+ * @return string 
+ */
 function appHelperI18n_convertDateFromTimezone($date,$timezone,$timezone_to,$format){
 	$date = new DateTime($date,new DateTimeZone($timezone));
 	$date->setTimezone( new DateTimeZone($timezone_to) );
@@ -7,6 +15,10 @@ function appHelperI18n_convertDateFromTimezone($date,$timezone,$timezone_to,$for
 }
 
 
+/**
+ * 
+ * @return void 
+ */
 function appHelperI18n_getPrefixPhoneForCountries(){
 	
 $countryArray = array(
@@ -245,6 +257,12 @@ $countryArray = array(
 
 }
 
+
+
+/**
+ * 
+ * @return array 
+ */
 function appHelperI18n_getEmojisForCountries(){
 	
 	$emoji_flags = array();
@@ -505,6 +523,12 @@ function appHelperI18n_getEmojisForCountries(){
 	return $emoji_flags;
 }
 
+
+
+/**
+ * 
+ * @return string[] 
+ */
 function appHelperI18n_getCountries(){
 	$countries = array(
 		"AF" => "Afghanistan",
