@@ -21,7 +21,7 @@ class CalendarController extends Controller
 	 * 
 	 * @var array
 	 */
-	protected $dataView;
+	private $dataView;
 
 
 
@@ -37,46 +37,53 @@ class CalendarController extends Controller
 			return ('user must be connected');
 		}
 
-		$this->dataView['error'] = 0;
+		if( !appHelperRole_isGranted('former') ){
+			appHelperUrl_redirect($_REQUEST['lang'], 'auth', 'index');
+			return ('user must be granted');
+		}
+		else{
 
-		if (!empty($_SESSION['user_calendars'])) {
-			$calendars = json_decode($_SESSION['user_calendars']);
-			$i = 0;
-			if (!is_array($calendars->data)) {
-				$this->dataView['error'] = 1;
-				$this->dataView['error-message'] = "No calendar found.";
-			} else {
-				foreach ($calendars->data as $calendar) {
+			$this->dataView['error'] = 0;
 
-					if (strpos($calendar->url, "_validate.ics") != false || strpos($calendar->url, "_meetings.ics") != false || strpos($calendar->url, "_calls.ics") != false) {
-						try {
-							$ical = new ICal($calendar->url, array(
-								'defaultSpan'                 => 2,     // Default value
-								'defaultTimeZone'             => 'UTC',
-								'defaultWeekStart'            => 'MO',  // Default value
-								'disableCharacterReplacement' => false, // Default value
-								'filterDaysAfter'             => null,  // Default value
-								'filterDaysBefore'            => null,  // Default value
-								'skipRecurrence'              => false, // Default value
-							));
-						} catch (\Exception $e) {
-							$this->dataView['error'] = 1;
-							$this->dataView['error-message'] = "No calendar found.";
-							continue;
+			if (!empty($_SESSION['user_calendars'])) {
+				$calendars = json_decode($_SESSION['user_calendars']);
+				$i = 0;
+				if (!is_array($calendars->data)) {
+					$this->dataView['error'] = 1;
+					$this->dataView['error-message'] = "No calendar found.";
+				} else {
+					foreach ($calendars->data as $calendar) {
+
+						if (strpos($calendar->url, "_validate.ics") != false || strpos($calendar->url, "_meetings.ics") != false || strpos($calendar->url, "_calls.ics") != false) {
+							try {
+								$ical = new ICal($calendar->url, array(
+									'defaultSpan'                 => 2,     // Default value
+									'defaultTimeZone'             => 'UTC',
+									'defaultWeekStart'            => 'MO',  // Default value
+									'disableCharacterReplacement' => false, // Default value
+									'filterDaysAfter'             => null,  // Default value
+									'filterDaysBefore'            => null,  // Default value
+									'skipRecurrence'              => false, // Default value
+								));
+							} catch (\Exception $e) {
+								$this->dataView['error'] = 1;
+								$this->dataView['error-message'] = "No calendar found.";
+								continue;
+							}
+
+							$this->dataView['calendars'][$i]['config'] = array('url' => $calendar->url, 'color' => $calendar->color, 'textColor' => $calendar->textColor);
+							$events = $ical->sortEventsWithOrder($ical->events());
+							$this->dataView['calendars'][$i]['events'] = $events;
 						}
 
-						$this->dataView['calendars'][$i]['config'] = array('url' => $calendar->url, 'color' => $calendar->color, 'textColor' => $calendar->textColor);
-						$events = $ical->sortEventsWithOrder($ical->events());
-						$this->dataView['calendars'][$i]['events'] = $events;
+						$i++;
 					}
-
-					$i++;
 				}
 			}
+			$view = new View();
+			$view->setView(__DIR__ . '/templates/default.php');
+			return $view->render($this->dataView);
 		}
-		$view = new View();
-		$view->setView(__DIR__ . '/templates/default.php');
-		return $view->render($this->dataView);
 	}
 
 

@@ -39,11 +39,26 @@ if ($dataView['error'] === 1) {
 
     <div id="myTabContent" class="tab-content">
 
-      <div class="tab-pane fade show active" id="allfiles">
-        <p><i class="far fa-folder-open"></i><?=  $mod_lang['document_all_files'] ?><br />  
-        <!-- liste des fichiers -->    
-        </p>
-      </div>
+
+    <?php
+        echo '<div class="tab-pane fade show active" id="sondage"><p><i class="far fa-folder-open"></i> ' . $mod_lang['document_all_files'] . '<br />';
+
+        /*if (is_array($dataView['sondages'])) {
+          foreach ($dataView['sondages'] as $sondage) {
+            echo '<li><i class="fas fa-file-pdf"></i> <a href="' . appHelperUrl_link($dataView['lang'], 'calendar', 'download', $dataView['id'], 'document_directory=allfiles&document_id=' . $sondage->id . '&document_name=' . $sondage->name . '.pdf') . '">' . $sondage->name . '</a></li>';
+          }
+        }*/
+
+        echo '</p><hr><p><i class="far fa-folder-open"></i> ' . $mod_lang['document_my_files'];
+
+        if (is_array($dataView['uploads']) && count($dataView['uploads']) > 0) {
+          foreach ($dataView['uploads'] as $upload) {
+            echo '<li><i class="fas fa-file-pdf"></i> <a href="' . appHelperUrl_link($dataView['lang'], $dataView['module'], 'download', $dataView['id'], 'document_directory=myfiles&document_id=&document_name=' . $upload['name']) . '">' . $upload['name'] . '</a></li>';
+          }
+        }
+
+        echo '</p></div>';
+    ?>
       
 
     </div>

@@ -25,11 +25,59 @@ class SessionController extends Controller
 
 
 
+	/**
+	 * Session view with event
+	 * @return string
+	 */
+	public function index(): string
+	{
+		global $app_config;
+		$this->dataView['id'] = $_REQUEST['id'];
+		$this->dataView['lang'] = $_REQUEST['lang'];
+		$this->dataView['error'] = 0;
+
+		if (empty($_SESSION['user_id'])) {
+			appHelperUrl_redirect($_REQUEST['lang'], 'auth', 'index');
+			return ('user must be connected');
+		}
+
+		if( !appHelperRole_isGranted('learner') && !appHelperRole_isGranted('administrator') ){
+			appHelperUrl_redirect($_REQUEST['lang'], 'auth', 'index');
+			return ('user must be granted');
+		}
+		else{
+			
+			$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
+			$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=getSessions";
+			$webserviceUrl .= "&contact_id=" . $_SESSION['user_id_ext'];
+			$webserviceUrl .= "&agence_id=" . $_SESSION['user_id_ext'];
+			$webserviceUrl .= "&role=". 'learner'; //TODO multi roles $_SESSION['user_roles'];
+			//Bug voir jerome
+			$webserviceObj = Webservice::curl($webserviceUrl);
+			echo $webserviceUrl;
+			$webserviceObj = json_decode('[{"id":"5136e734-71f2-11ec-ac2b-0050569c3446","name":"Formation management - "}]');
+			if (!empty($webserviceObj)) {
+				//traitement de champs du json pour injecter dans le template
+			} else {
+				$this->dataView['error'] = 1;
+				$this->dataView['error-message'] = "Get webservice not found.";
+			}
+			
+			$view = new View();
+			$view->setView(__DIR__ . '/templates/default.php');
+			return $view->render($this->dataView);
+		}
+	}	
+	
+
+	use \App\traits\DownloadTrait;
+	use \App\traits\DocumentTrait;
 
 	/**
 	 * iframe fo view and download pdf
 	 * @return void 
 	 */
+	/*
 	public function download()
 	{
 		global $app_config;
@@ -76,7 +124,7 @@ class SessionController extends Controller
 		$view->setView(__DIR__ . '/templates/download.php');
 		echo $view->render($this->dataView);
 	}
-
+	*/
 
 
 	/**
@@ -165,7 +213,7 @@ class SessionController extends Controller
 	 * @return void 
 	 * @throws Exception 
 	 */
-	public function document()
+	/*public function document()
 	{
 		global $app_config;
 		$this->dataView['id'] = $_REQUEST['id'];
@@ -242,7 +290,7 @@ class SessionController extends Controller
 		$view = new View();
 		$view->setView(__DIR__ . '/templates/document.php');
 		echo $view->render($this->dataView);
-	}
+	}*/
 
 
 
@@ -285,52 +333,6 @@ class SessionController extends Controller
 
 
 
-	/**
-	 * Session view with event
-	 * @return string
-	 */
-	public function index(): string
-	{
-		global $app_config;
-		$this->dataView['id'] = $_REQUEST['id'];
-		$this->dataView['lang'] = $_REQUEST['lang'];
-		$this->dataView['error'] = 0;
 
-		if (empty($_SESSION['user_id'])) {
-			appHelperUrl_redirect($_REQUEST['lang'], 'auth', 'index');
-			return ('user must be connected');
-		}
-
-		if( !appHelperRole_isGranted('learner') && !appHelperRole_isGranted('administrator') ){
-			appHelperUrl_redirect($_REQUEST['lang'], 'auth', 'index');
-			return ('user must be granted');
-		}
-		else{
-			
-			$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
-			$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=getSessions";
-			$webserviceUrl .= "&contact_id=" . $_SESSION['user_id_ext'];
-			$webserviceUrl .= "&agence_id=" . $_SESSION['user_id_ext'];
-			$webserviceUrl .= "&role=". $_SESSION['user_roles'];
-			//Bug voir jerome
-			//$webserviceObj = Webservice::curl($webserviceUrl);
-			$webserviceObj = json_decode('[{"id":"5136e734-71f2-11ec-ac2b-0050569c3446","name":"Formation management - "}]');
-			if (!empty($webserviceObj)) {
-				//traitement de champs du json pour injecter dans le template
-			} else {
-				$this->dataView['error'] = 1;
-				$this->dataView['error-message'] = "Get webservice not found.";
-			}
-			
-			$view = new View();
-			$view->setView(__DIR__ . '/templates/default.php');
-			return $view->render($this->dataView);
-		}
-
-	}
-
-
-
-	
 
 }
