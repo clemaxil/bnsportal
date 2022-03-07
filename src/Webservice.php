@@ -60,7 +60,7 @@ class Webservice
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 
-		$curlResponse = curl_exec($ch);
+		$curlResponse = curl_exec($ch); 
 		$response = json_decode($curlResponse);
 
 		$response_headers['http_code'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);

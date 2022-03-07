@@ -181,81 +181,86 @@ class CalendarController extends Controller
 
 		$this->dataView['id'] = $_REQUEST['id'];
 		$this->dataView['lang'] = $_REQUEST['lang'];
-		$this->dataView['save'] = '';
-		$this->dataView['error'] = '';
+		$this->dataView['module'] = $_REQUEST['module'];
+		$this->dataView['error_fatal'] = 0;
 
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$data = urlencode(json_encode($_POST));	
 
-		if (!empty($_REQUEST['save'])) {
+				//bns_portalfield
+				$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionCapture";
+				$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=portalSetFieldsForRegistration&id=" . $_POST['registrationid'] . "&data=" . $data;
+				$webserviceResult = Webservice::http($webserviceUrl);
 
-			$this->dataView['save'] = $_REQUEST['save'];
+				//notes
+				foreach ($_POST as $key => $val) {
+					if (strpos($key, "note_") !== false) {
+						$noteTab = explode('_', $key);
+						$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionCapture";
+						$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=portalSetNotesForRegistration&id=" . $noteTab[1] . "&note=" . $val;
+						Webservice::http($webserviceUrl);
+					}
+				}
 
-			if ($this->dataView['save'] == "ok") {
-				$this->dataView['save-message'] = 'Vos modifications ont bien été enregistrées';
+			$_SESSION['flash'] = array('type'=>'warning','message'=>'Error: '.print_r($webserviceResult,true));
+			if ($webserviceResult == 1) {
+				$_SESSION['flash'] = array('type'=>'success','message'=>'Vos modifications ont bien été enregistrées');
 			}
 
-			if ($this->dataView['save'] == "false") {
-				$this->dataView['save-message'] = 'Vos modifications n\'ont pas été enregistrées';
-			}
 		}
+
 
 		//details, dates, inscrits
-		$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionDateCapture";
-		$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=getDetailsIdForPortal&id=" . $this->dataView['id'];
+		$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionCapture";
+		$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=portalSessionGetRegistration&id=" . $this->dataView['id'];
 		$webserviceObj = Webservice::http($webserviceUrl);
 
+		if (gettype($webserviceObj) == "object") {
 
-		if (!empty($webserviceObj->session->id)) {
-			$this->dataView['dates'] = $webserviceObj->dates;
-			$this->dataView['session'] = $webserviceObj->session;
-			$this->dataView['account'] = $webserviceObj->account;
 			$this->dataView['registrations'] = $webserviceObj->registrations;
 			$this->dataView['contacts'] = $webserviceObj->contacts;
-			$this->dataView['formateurs'] = $webserviceObj->formateurs;
-			$this->dataView['notes'] = $webserviceObj->notes;
-		} else {
-			$this->dataView['error'] = 1;
-			$this->dataView['error-message'] = "Get webservice not found.";
-		}
+			$this->dataView['notes'] = $webserviceObj->notes;	
 
 
-		//############### bns_portalfields
-		if (count($webserviceObj->portalfields->session) > 0) {
+			//############### bns_portalfields
+			if( in_array('former',json_decode($_SESSION['user_roles'])) ){
+				if (count($webserviceObj->portalfields->session) > 0) {
 
-			//tri des inscription name par ordre alphabetique
-			foreach ($this->dataView['registrations'] as $registration) {
-				$name_pos = strrpos($registration->name, '-');
-				$registration->name = ltrim(substr($registration->name, $name_pos));
-				$registration->name = str_replace('- ', '', $registration->name);
-				$name_tab = explode(' ', $registration->name);
-				$name_tab_reversed = array_reverse($name_tab);
-				$registration->name = implode($name_tab_reversed);
-			}
-			$columns = array_column($this->dataView['registrations'], 'name');
-			array_multisort($columns, SORT_ASC, $this->dataView['registrations']);
+					//tri des inscription name par ordre alphabetique
+					foreach ($this->dataView['registrations'] as $registration) {
+						$name_pos = strrpos($registration->name, '-');
+						$registration->name = ltrim(substr($registration->name, $name_pos));
+						$registration->name = str_replace('- ', '', $registration->name);
+						$name_tab = explode(' ', $registration->name);
+						$name_tab_reversed = array_reverse($name_tab);
+						$registration->name = implode($name_tab_reversed);
+					}
+					$columns = array_column($this->dataView['registrations'], 'name');
+					array_multisort($columns, SORT_ASC, $this->dataView['registrations']);
 
-			// echo "<!-- ";
-			// echo "<pre>";
-			// print_r($this->dataView['registrations']);
-			// echo "</pre>";
-			// echo " -->";
+					foreach ($webserviceObj->registrations as $registration) {
 
-			foreach ($webserviceObj->registrations as $registration) {
+						$contactId = $registration->contact_id_c;
 
-				$contactId = $registration->contact_id_c;
-				//echo "<br>bi : $contactId  ".$this->dataView['contacts']->$contactId->first_name;
-
-				foreach ($webserviceObj->portalfields->registration as $field) {
-					$this->dataView['registration_fields'][$contactId][] = $this->setfieldType(
-						$fieldLabel = $field->name,
-						$fieldName = $field->portailfield,
-						$fieldType = $field->sugar_field_type,
-						$fieldReadOnly = $field->portailfield_readonly,
-						$fieldOptions = @$field->sugar_field_options_list,
-						$fieldValue = $registration->{$field->portailfield}
-					);
+						foreach ($webserviceObj->portalfields->registration as $field) {
+							$this->dataView['registration_fields'][$contactId][] = $this->setfieldType(
+								$fieldLabel = $field->name,
+								$fieldName = $field->portailfield,
+								$fieldType = $field->sugar_field_type,
+								$fieldReadOnly = $field->portailfield_readonly,
+								$fieldOptions = @$field->sugar_field_options_list,
+								$fieldValue = $registration->{$field->portailfield}
+							);
+						}
+					}
 				}
 			}
+
+		} else {
+			$_SESSION['flash'] = array('type'=>'danger','message'=>'Webservice not found. '.print_r($webserviceObj,true));
+			$dataView['error_fatal'] = 1;
 		}
+
 
 		$view = new View();
 		$view->setView(__DIR__ . '/templates/inscrit.php');

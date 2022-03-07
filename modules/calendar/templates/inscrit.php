@@ -7,32 +7,13 @@ include __DIR__ . '/../../../layouts/menu.php';
 require_once(__DIR__ . '/../../../helpers/appHelperI18n.php');
 
 
-if ($dataView['save'] == "ok") {
-    echo '<div class="alert alert-dismissible alert-success">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Success: </strong> ' . $dataView['save-message'] . '</div>';
-}
-
-
-if ($dataView['save'] == "false") {
-    echo '<div class="alert alert-dismissible alert-warning">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Warning : </strong> ' . $dataView['save-message'] . '</div>';
-}
-
-
-
-
-if ($dataView['error'] === 1) {
-    echo '<div class="alert alert-dismissible alert-danger">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Error : </strong> ' . $dataView['error-message'] . '</div>';
-} else {
+if ($dataView['error_fatal'] !== 1)
+{
 ?>
 
     <div style="text-align:center;">
         <h4>
-            <?= $dataView['session']->numero . ", " . $dataView['session']->name; ?>
+            <?= $_SESSION['session_numero'] . ", " . $_SESSION['session_name']; ?>
         </h4>
     </div>
 
@@ -104,9 +85,8 @@ if ($dataView['error'] === 1) {
                         foreach ($dataView['registration_fields'] as $fieldContactId => $val) {
                             if ($fieldContactId == $contactId) {
                                 echo '<form name="sessionupdate" method="post" action="index.php">';
-                                echo '<input type="hidden" name="q" value="' . $dataView['lang'] . '/calendar/update/' . $dataView['id'] . '">';
+                                echo '<input type="hidden" name="q" value="' . $dataView['lang'] . '/calendar/inscrit/' . $dataView['id'] . '">';
                                 echo '<input type="hidden" name="record" value="' . $dataView['id'] . '">';
-                                echo '<input type="hidden" name="tabname" value="registrations">';
                                 echo '<input type="hidden" name="registrationid" value="' . $registration->id . '">';
 
                                 echo '<p><b><span class="text-primary"><i class="fas fa-comment-dots"></i> ' . $mod_lang['notes'] . '</span></b>';
