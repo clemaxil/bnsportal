@@ -11,32 +11,13 @@ if ($lang == 'en') {
   $date_format = 'Y-m-d';
 }
 
-if ($dataView['save'] == "ok") {
-  echo '<div class="alert alert-dismissible alert-success">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Success: </strong> ' . $dataView['save-message'] . '</div>';
-}
-
-
-if ($dataView['save'] == "false") {
-  echo '<div class="alert alert-dismissible alert-warning">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Warning : </strong> ' . $dataView['save-message'] . '</div>';
-}
-
-
-
-
-if ($dataView['error'] === 1) {
-  echo '<div class="alert alert-dismissible alert-danger">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Error : </strong> ' . $dataView['error-message'] . '</div>';
-} else {
+if ($dataView['error_fatal'] !== 1)
+{
 ?>
 
   <div style="text-align:center;">
     <h4>
-      <?= $dataView['session']->numero . ", " . $dataView['session']->name; ?>
+      <?= $_SESSION['session_numero'] . " " . $_SESSION['session_name']; ?>
     </h4>
   </div>
 
@@ -47,16 +28,16 @@ if ($dataView['error'] === 1) {
 
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'detail', $dataView['id']); ?>"><i class="fas fa-clipboard"></i> <?= $mod_lang['submenu_detail']; ?></a>
+        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'detail', $dataView['id']); ?>"><i class="fas fa-clipboard"></i> <?= $mod_lang['submenu_detail']; ?></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'date', $dataView['id']); ?>"><i class="fas fa-clock"></i> <?= $mod_lang['submenu_date']; ?></a>
+        <a class="nav-link active" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'date', $dataView['id']); ?>"><i class="fas fa-clock"></i> <?= $mod_lang['submenu_date']; ?></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'inscrit', $dataView['id']); ?>"><i class="fas fa-user-graduate"></i> <?= $mod_lang['submenu_registred']; ?></a>
+        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'inscrit', $dataView['id']); ?>"><i class="fas fa-user-graduate"></i> <?= $mod_lang['submenu_registred']; ?></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'calendar', 'document', $dataView['id']); ?>"><i class="fas fa-folder-open"></i> <?= $mod_lang['submenu_document']; ?></a>
+        <a class="nav-link" href="<?= appHelperUrl_link($dataView['lang'], 'session', 'document', $dataView['id']); ?>"><i class="fas fa-folder-open"></i> <?= $mod_lang['submenu_document']; ?></a>
       </li>
     </ul>
 
@@ -84,7 +65,10 @@ if ($dataView['error'] === 1) {
 
       if (is_array($dataView['dates'])) {
         foreach ($dataView['dates'] as $date) {
+
           $formateurId = $date->formateur_id;
+          $accountId = $date->account_id;
+
           if ($date->portal_selected == 1) {
             echo '<tr class="table-primary">';
           } else {
@@ -94,7 +78,7 @@ if ($dataView['error'] === 1) {
           echo '<td>' . appHelperI18n_convertDateFromTimezone($date->fin, "GMT", "Europe/Paris", $date_format) . '</td>';
           echo '<td>' . $date->duree . ' ' . $date->unit . '</td>';
           echo '<td>' . $date->horairemat1 . ' ' . $date->horairemat2 . ' ' . $date->horaireapm1 . ' ' . $date->horaireapm2 . '</td>';
-          echo '<td>' . $dataView['account']->name . '</td>';
+          echo '<td>' . $dataView['account']->$accountId->name . '</td>';
           echo '<td>' . $date->account_address . '</td>';
           echo '<td>' . $dataView['formateurs']->$formateurId->first_name . ' ' . $dataView['formateurs']->$formateurId->last_name . '</td>';
           echo '</tr>';

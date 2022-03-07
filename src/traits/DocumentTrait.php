@@ -15,16 +15,22 @@ trait DocumentTrait
 		$dataView['id'] = $_REQUEST['id'];
 		$dataView['module'] = $_REQUEST['module'];
 		$dataView['lang'] = $_REQUEST['lang'];
-		$dataView['error'] = '';
 
-		//details, dates, inscrits
-		$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionDateCapture";
-		$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=getDetailsIdForPortal&id=" . $dataView['id'];
-		$webserviceObj = Webservice::http($webserviceUrl);
+		$dataView['upload_message'] = '';
 
-		$dataView['session'] = $webserviceObj->session;
+		$dataView['session_id'] = (empty($_SESSION['session_id'])) ? 'No session id' : $_SESSION['session_id'];
+		$dataView['session_name'] = (empty($_SESSION['session_name'])) ? 'No session name' : $_SESSION['session_name'];
+
 
 		$upload_dir = 'upload/session/';
+		if (!is_dir($upload_dir . $dataView['id'])) {
+			mkdir($upload_dir . $dataView['id'], 0777);
+		}
+
+		if (!is_dir($upload_dir . $dataView['id'] . '/' . $_SESSION['user_id_ext'])) {
+			mkdir($upload_dir . $dataView['id'] . '/' . $_SESSION['user_id_ext'], 0777);
+		}
+		
 
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -39,24 +45,6 @@ trait DocumentTrait
 				8 => 'A PHP extension stopped the file upload.',
 			);
 
-
-			if (!is_dir($upload_dir . $dataView['session']->id)) {
-				mkdir($upload_dir . $dataView['session']->id, 0777);
-			}
-
-			if (!is_dir($upload_dir . $dataView['session']->id . '/' . $_SESSION['user_id_ext'])) {
-				mkdir($upload_dir . $dataView['session']->id . '/' . $_SESSION['user_id_ext'], 0777);
-			}
-
-			if (!is_dir($upload_dir . $dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/myfiles')) {
-				mkdir($upload_dir . $dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/myfiles', 0777);
-			}
-
-			if (!is_dir($upload_dir . $dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/allfiles')) {
-				mkdir($upload_dir . $dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/allfiles', 0777);
-			}
-
-
 			if ($_FILES['formFile']['error'] > 0) {
 				$upload_message = '<p class="text-danger">' . $phpFileUploadErrors[$_FILES['formFile']['error']] . '</p>';
 			} else {
@@ -65,16 +53,16 @@ trait DocumentTrait
 				} else {
 					$tmp_name = $_FILES["formFile"]["tmp_name"];
 					$name = basename($_FILES["formFile"]["name"]);
-					move_uploaded_file($tmp_name, $upload_dir . $dataView['session']->id . '/' . $_SESSION['user_id_ext'] . '/myfiles/' . $name);
+					move_uploaded_file($tmp_name, $upload_dir . $dataView['id'] . '/' . $_SESSION['user_id_ext'] . '/' . $name);
 					$upload_message = '<p class="text-success">' . $phpFileUploadErrors[$_FILES['formFile']['error']] . '</p>';
 
 					//creation de la note avec le fichier dans le crm
 					$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionDateCapture";
 					$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=setDocumentForPortal";
 					$webserviceUrl .= "&session_date_id=" . $dataView['id'] . "&user_id=" . $_SESSION['user_id_ext'];
-					$webserviceUrl .= "&url=" . urlencode($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . str_replace('index.php', '', $_SERVER['SCRIPT_NAME']) . 'upload/session/' . $dataView['session']->id . '/' . $_SESSION['user_id'] . '/myfiles/' . $name) . "&user_id=" . $_SESSION['user_id_ext'];
+					$webserviceUrl .= "&url=" . urlencode($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . str_replace('index.php', '', $_SERVER['SCRIPT_NAME']) . 'upload/session/' . $dataView['id'] . '/' . $_SESSION['user_id'] . $name) . "&user_id=" . $_SESSION['user_id_ext'];
 					$webserviceUrl .= "&name=" . basename($_FILES["formFile"]["name"]);
-					Webservice::http($webserviceUrl);
+					//Webservice::http($webserviceUrl);
 				}
 			}
 			$dataView['upload_message'] = $upload_message;
@@ -82,19 +70,19 @@ trait DocumentTrait
 
 
 		//list uploads directory
-		$uploads = [];
-		if (is_dir($upload_dir . $dataView['id'] . '/' . $_SESSION['user_id_ext'] . '/allfiles')) {
-			$cdir = scandir($upload_dir . $dataView['id'] . '/' . $_SESSION['user_id_ext'] . '/allfiles');
+		$dataView['uploads'] = [];
+		if (is_dir($upload_dir . $dataView['id'] . '/' . $_SESSION['user_id_ext'])) {
+			$cdir = scandir($upload_dir . $dataView['id'] . '/' . $_SESSION['user_id_ext']);
 			foreach ($cdir as $key => $value) {
 				if ('.' !== $value && '..' !== $value) {
-					$uploads[] = array(
+					$dataView['uploads'][] = array(
 						'name' => $value,
-						'link' => 'upload/session/' . $dataView['id'] . '/' . $_SESSION['user_id_ext'] . '/allfiles/' . $value
+						'link' => 'upload/session/' . $dataView['id'] . '/' . $_SESSION['user_id_ext'] . $value
 					);
 				}
 			}
 		}
-		$dataView['uploads'] = $uploads;
+		//$dataView['uploads'] = $uploads;
 
 		$view = new View();
 		$view->setView('modules/'.$dataView['module']. '/templates/document.php');

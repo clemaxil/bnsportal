@@ -7,27 +7,9 @@ include __DIR__ . '/../../../layouts/menu.php';
 require_once(__DIR__ . '/../../../helpers/appHelperI18n.php');
 
 
-if ($dataView['save'] == "ok") {
-  echo '<div class="alert alert-dismissible alert-success">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Success: </strong> ' . $dataView['save-message'] . '</div>';
-}
+if ($dataView['error_fatal'] !== 1)
+{
 
-
-if ($dataView['save'] == "false") {
-  echo '<div class="alert alert-dismissible alert-warning">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Warning : </strong> ' . $dataView['save-message'] . '</div>';
-}
-
-
-
-
-if ($dataView['error'] === 1) {
-  echo '<div class="alert alert-dismissible alert-danger">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Error : </strong> ' . $dataView['error-message'] . '</div>';
-} else {
 ?>
 
   <div style="text-align:center;">
@@ -75,11 +57,8 @@ if ($dataView['error'] === 1) {
 
       if (is_array($dataView['session_fields'])) {
         echo '<br /><hr>';
-        echo '<form name="sessionupdate" method="post" action="index.php">';
-        echo '<input type="hidden" name="q" value="' . $dataView['lang'] . '/calendar/update/' . $dataView['id'] . '">';
-        echo '<input type="hidden" name="tabname" value="session">';
-        echo '<input type="hidden" name="id" value="' . $dataView['id'] . '">';
-        echo '<input type="hidden" name="sessionid" value="' . $dataView['session']->id . '">';
+        echo '<form name="sessionupdate" method="post" action="index.php?q=">';
+        echo '<input type="hidden" name="q" value="' . $dataView['lang'] . '/calendar/detail/' . $dataView['id'] . '">';
         echo '<p><b><span class="text-primary"><i class="fas fa-comment-dots"></i> ' . $mod_lang['notes'] . '</span></b>';
         foreach ($dataView['session_fields'] as $session_fields) {
           echo $session_fields;

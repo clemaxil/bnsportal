@@ -7,11 +7,8 @@ include __DIR__ . '/../../../layouts/menu.php';
 require_once(__DIR__ . '/../../../helpers/appHelperI18n.php');
 
 
-if ($dataView['error'] === 1) {
-  echo '<div class="alert alert-dismissible alert-danger">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Error : </strong> ' . $dataView['error-message'] . '</div>';
-} else {
+if ($dataView['error_fatal'] !== 1)
+{
 ?>
 
   <div style="text-align:center;">

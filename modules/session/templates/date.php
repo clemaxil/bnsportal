@@ -11,16 +11,13 @@ if ($lang == 'en') {
   $date_format = 'Y-m-d';
 }
 
-if ($dataView['error'] === 1) {
-  echo '<div class="alert alert-dismissible alert-danger">
-				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-				<strong>Error : </strong> ' . $dataView['error-message'] . '</div>';
-} else {
+if ($dataView['error_fatal'] !== 1)
+{
 ?>
 
   <div style="text-align:center;">
     <h4>
-      <?= $dataView['session']->numero . " " . $dataView['session']->name; ?>
+      <?= $_SESSION['session_numero'] . " " . $_SESSION['session_name']; ?>
     </h4>
   </div>
 
@@ -68,7 +65,10 @@ if ($dataView['error'] === 1) {
 
       if (is_array($dataView['dates'])) {
         foreach ($dataView['dates'] as $date) {
+
           $formateurId = $date->formateur_id;
+          $accountId = $date->account_id;
+
           if ($date->portal_selected == 1) {
             echo '<tr class="table-primary">';
           } else {
@@ -78,7 +78,7 @@ if ($dataView['error'] === 1) {
           echo '<td>' . appHelperI18n_convertDateFromTimezone($date->fin, "GMT", "Europe/Paris", $date_format) . '</td>';
           echo '<td>' . $date->duree . ' ' . $date->unit . '</td>';
           echo '<td>' . $date->horairemat1 . ' ' . $date->horairemat2 . ' ' . $date->horaireapm1 . ' ' . $date->horaireapm2 . '</td>';
-          echo '<td>' . $dataView['account']->name . '</td>';
+          echo '<td>' . $dataView['account']->$accountId->name . '</td>';
           echo '<td>' . $date->account_address . '</td>';
           echo '<td>' . $dataView['formateurs']->$formateurId->first_name . ' ' . $dataView['formateurs']->$formateurId->last_name . '</td>';
           echo '</tr>';
