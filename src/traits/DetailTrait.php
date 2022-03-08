@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\traits;
 
+require(__DIR__ . '/../../helpers/appHelperRole.php');
+
 use App\View;
 use App\Webservice;
 
@@ -39,7 +41,7 @@ trait DetailTrait
 			$_SESSION['session_numero'] = $dataView['session']->numero;
 			$_SESSION['session_name'] = $dataView['session']->name;			
 			
-			if( in_array('former',json_decode($_SESSION['user_roles'])) ){
+			if(appHelperRole_isGranted('former')){
 				//############### bns_portalfields
 				if (count($webserviceObj->portalfields->session) > 0) {
 					foreach ($webserviceObj->portalfields->session as $field) {
