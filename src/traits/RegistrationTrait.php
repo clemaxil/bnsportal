@@ -29,17 +29,25 @@ trait RegistrationTrait
 			$data = urlencode(json_encode($_POST));
 
 			//bns_portalfield
-			$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionCapture";
-			$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=portalSetFieldsForRegistration&registrationid=" . $_POST['registrationid'];
+			$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
+			$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'];
+			$webserviceUrl .= "&bns_action=portalSetFieldsForRegistration";
+			$webserviceUrl .= "&session_id=" . $dataView['id'];
+			$webserviceUrl .= "&contact_id=" . $_SESSION['user_id_ext'];
+			$webserviceUrl .= "&role=".json_decode($_SESSION['user_roles'])[0];
+			$webserviceUrl .= "&agency_code=" . $app_config['sugar_bns_company_code'];
+			$webserviceUrl .= "&id_registration=" . $_POST['registrationid'];
 			$webserviceUrl .= "&data=" . $data;
 			$webserviceResult = Webservice::http($webserviceUrl);
+			
 
 			//notes
 			foreach ($_POST as $key => $val) {
 				if (strpos($key, "note_") !== false) {
 					$noteTab = explode('_', $key);
-					$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionCapture";
-					$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=portalSetNotesForRegistration";
+					$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
+					$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'];
+					$webserviceUrl .= "&bns_action=portalSetNotesForRegistration";
 					$webserviceUrl .= "&id=" . $noteTab[1];						
 					$webserviceUrl .= "&score=" . $val;
 					Webservice::http($webserviceUrl);
@@ -56,8 +64,13 @@ trait RegistrationTrait
 
 
 		//details, dates, inscrits
-		$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionCapture";
-		$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=portalSessionGetRegistration&id=" . $dataView['id'];
+		$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
+		$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'];
+		$webserviceUrl .= "&bns_action=portalSessionGetRegistration";
+		$webserviceUrl .= "&session_id=" . $dataView['id'];
+		$webserviceUrl .= "&contact_id=" . $_SESSION['user_id_ext'];
+		$webserviceUrl .= "&role=".json_decode($_SESSION['user_roles'])[0];
+		$webserviceUrl .= "&agency_code=" . $app_config['sugar_bns_company_code'];
 		$webserviceObj = Webservice::http($webserviceUrl);
 
 		if (gettype($webserviceObj) == "object") {

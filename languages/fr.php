@@ -9,6 +9,7 @@ $app_lang['mod_auth_signout'] = 'Se déconnecter';
 $app_lang['mod_profil'] = 'Mon profil';
 $app_lang['mod_calendar'] = 'Mes formations';
 $app_lang['mod_session'] = 'Mes sessions';
+$app_lang['mod_invoice'] = 'Mes factures';
 $app_lang['mod_calendarbis'] = 'Formations';
 $app_lang['powered_by'] = 'Propulsé par';
 $app_lang['execution_time'] = 'Temps d\'execution';

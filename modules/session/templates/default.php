@@ -27,46 +27,24 @@ if ($dataView['error'] === 1) {
     </tr>
   </thead>
   <tbody>
-    <tr class="table-primary">
-		<td><a href="<?= appHelperUrl_link($lang, 'session', 'detail', '9eb9c014-85cd-11ec-9ccf-0050569c3446') ?>">Column content</a></td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-	</tr>
-	<tr class="table-primary">
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-	</tr>
-	<tr class="table-primary">
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-	</tr>
-	<tr class="table-primary">
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-		<td>Column content</td>
-	</tr>
+	  <?php
+
+	  foreach($dataView['sessions'] as $session){
+		echo '
+			<tr class="table-primary">
+			<td><a href='. appHelperUrl_link($lang, 'session', 'detail', $session->id) .'>'.$session->numero.'</a></td>
+			<td>'.$session->name.'</td>
+			<td>'.$session->status.'</td>
+			<td>'.$session->type.'</td>
+			<td>'.$session->modalite.'</td>
+			<td>'.$session->debut.'</td>
+			<td>'.$session->fin.'</td>
+			<td>'.$session->nbhours.'</td>
+			</tr>
+		';
+	  }
+
+	  ?>
   </tbody>
 </table>
 

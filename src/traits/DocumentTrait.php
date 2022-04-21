@@ -18,7 +18,7 @@ trait DocumentTrait
 
 		$dataView['upload_message'] = '';
 
-		$dataView['session_id'] = (empty($_SESSION['session_id'])) ? 'No session id' : $_SESSION['session_id'];
+		$dataView['session_numero'] = (empty($_SESSION['session_numero'])) ? 'No session numero' : $_SESSION['session_numero'];
 		$dataView['session_name'] = (empty($_SESSION['session_name'])) ? 'No session name' : $_SESSION['session_name'];
 
 
@@ -32,7 +32,7 @@ trait DocumentTrait
 		}
 		
 
-		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {			
 
 			$phpFileUploadErrors = array(
 				0 => 'The file uploaded with success',
@@ -48,6 +48,7 @@ trait DocumentTrait
 			if ($_FILES['formFile']['error'] > 0) {
 				$upload_message = '<p class="text-danger">' . $phpFileUploadErrors[$_FILES['formFile']['error']] . '</p>';
 			} else {
+				
 				if ($_FILES['formFile']['type'] != 'application/pdf') {
 					$upload_message = '<p class="text-danger">Error: File type, pdf only</p>';
 				} else {
@@ -57,16 +58,37 @@ trait DocumentTrait
 					$upload_message = '<p class="text-success">' . $phpFileUploadErrors[$_FILES['formFile']['error']] . '</p>';
 
 					//creation de la note avec le fichier dans le crm
-					$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionDateCapture";
-					$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=setDocumentForPortal";
-					$webserviceUrl .= "&session_date_id=" . $dataView['id'] . "&user_id=" . $_SESSION['user_id_ext'];
-					$webserviceUrl .= "&url=" . urlencode($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . str_replace('index.php', '', $_SERVER['SCRIPT_NAME']) . 'upload/session/' . $dataView['id'] . '/' . $_SESSION['user_id'] . $name) . "&user_id=" . $_SESSION['user_id_ext'];
-					$webserviceUrl .= "&name=" . basename($_FILES["formFile"]["name"]);
-					//Webservice::http($webserviceUrl);
-				}
+					$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
+					$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'];
+					$webserviceUrl .= "&bns_action=portalSetDocument";
+					$webserviceUrl .= "&session_id=" . $dataView['id'];
+					$webserviceUrl .= "&contact_id=" . $_SESSION['user_id_ext'];
+					$webserviceUrl .= "&role=".json_decode($_SESSION['user_roles'])[0];
+					$webserviceUrl .= "&agency_code=" . $app_config['sugar_bns_company_code'];
+					$webserviceUrl .= "&url=" . urlencode($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . str_replace('index.php', '', $_SERVER['SCRIPT_NAME']) . 'upload/session/' . $dataView['id'] . '/' . $_SESSION['user_id_ext'] . '/_' . $name);
+					$webserviceUrl .= "&name=" .urlencode($_FILES["formFile"]["name"]);
+					//echo $webserviceUrl;
+					// echo "<pre>";
+					// print_r($_FILES);
+					// echo "</pre>";
+					//exit();
+					Webservice::http($webserviceUrl);				}
 			}
 			$dataView['upload_message'] = $upload_message;
 		}
+
+
+		$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
+		$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'];
+		$webserviceUrl .= "&bns_action=getDocumentList";
+		$webserviceUrl .= "&session_id=" . $dataView['id'];
+		$webserviceUrl .= "&contact_id=" . $_SESSION['user_id_ext'];
+		$webserviceUrl .= "&role=".json_decode($_SESSION['user_roles'])[0];
+		$webserviceUrl .= "&agency_code=" . $app_config['sugar_bns_company_code'];
+		
+		$webserviceObj = Webservice::http($webserviceUrl);	
+		//echo print_r($webserviceObj,true);
+		$dataView['documents'] = $webserviceObj;		
 
 
 		//list uploads directory
@@ -74,7 +96,7 @@ trait DocumentTrait
 		if (is_dir($upload_dir . $dataView['id'] . '/' . $_SESSION['user_id_ext'])) {
 			$cdir = scandir($upload_dir . $dataView['id'] . '/' . $_SESSION['user_id_ext']);
 			foreach ($cdir as $key => $value) {
-				if ('.' !== $value && '..' !== $value) {
+				if ('.' !== $value && '..' !== $value && substr($value, 0, 1)=="_") {
 					$dataView['uploads'][] = array(
 						'name' => $value,
 						'link' => 'upload/session/' . $dataView['id'] . '/' . $_SESSION['user_id_ext'] . $value

@@ -60,7 +60,7 @@ class Webservice
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 
-		$curlResponse = curl_exec($ch); 
+		$curlResponse = curl_exec($ch);
 		$response = json_decode($curlResponse);
 
 		$response_headers['http_code'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -98,10 +98,11 @@ class Webservice
 			)
 		);
 		$content = file_get_contents($url, false, $context);
-		if ($content === false) {
+		if ($content === false || empty($content)) {
 			return 'Webservices retrieve error';
 		} else {
-			return (json_decode(trim($content, "\xEF\xBB\xBF")));
+			//return (json_decode(trim($content, "\xEF\xBB\xBF")));
+			return $content;
 		}
 	}
 }

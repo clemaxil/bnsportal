@@ -20,7 +20,7 @@
 	<link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css">
 	<link rel="stylesheet" href="assets/css/prism-okaidia.css" type="text/css">
 	<link rel="stylesheet" href="assets/css/custom.min.css" type="text/css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" type="text/css">
 
 </head>
 

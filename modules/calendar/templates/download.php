@@ -8,7 +8,7 @@ include __DIR__ . '/../../../layouts/menu.php';
 ?>
 
 <div style="text-align:center;">
-  <h4><?= $dataView['session_id'] . " " . $dataView['session_name']; ?></h4>
+  <h4><?= $dataView['session_numero'] . " " . $dataView['session_name']; ?></h4>
 </div>
 
 <div style="text-align:left;">

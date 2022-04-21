@@ -15,7 +15,7 @@ require(__DIR__ . '/../../helpers/appHelperRole.php');
  * Class Session for learner and administrator (RH)
  * @package MyCalendar
  */
-class SessionController extends Controller
+class InvoiceController extends Controller
 {
 	/**
 	 * 
@@ -24,9 +24,9 @@ class SessionController extends Controller
 	private $dataView;
 
 
-	use \App\traits\DetailTrait;
-	use \App\traits\DateTrait;
-	use \App\traits\RegistrationTrait;
+	// use \App\traits\DetailTrait;
+	// use \App\traits\DateTrait;
+	// use \App\traits\RegistrationTrait;
 	use \App\traits\DownloadTrait;
 	use \App\traits\DocumentTrait;
 
@@ -55,16 +55,17 @@ class SessionController extends Controller
 		else{
 			
 			$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
-			$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=getSessionsList";
+			$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=getInvoiceList";
 			$webserviceUrl .= "&contact_id=" . $_SESSION['user_id_ext'];
 			$webserviceUrl .= "&agence_id=" . $app_config['sugar_bns_company_code'];
 			$webserviceUrl .= "&role=".json_decode($_SESSION['user_roles'])[0];
+
 			$webserviceObj = Webservice::curl($webserviceUrl);
 			if (!empty($webserviceObj)) {
-				$this->dataView['sessions'] = $webserviceObj;
+				$this->dataView['invoices'] = $webserviceObj;
 			} else {
 				$this->dataView['error'] = 1;
-				$this->dataView['error-message'] = "Get webservice not found.";
+				$this->dataView['error-message'] = "No invoice found or Get webservice not found.";
 			}
 			
 			$view = new View();

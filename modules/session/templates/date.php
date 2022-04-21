@@ -78,7 +78,7 @@ if ($dataView['error_fatal'] !== 1)
           echo '<td>' . appHelperI18n_convertDateFromTimezone($date->fin, "GMT", "Europe/Paris", $date_format) . '</td>';
           echo '<td>' . $date->duree . ' ' . $date->unit . '</td>';
           echo '<td>' . $date->horairemat1 . ' ' . $date->horairemat2 . ' ' . $date->horaireapm1 . ' ' . $date->horaireapm2 . '</td>';
-          echo '<td>' . $dataView['account']->$accountId->name . '</td>';
+          echo '<td>' . @$dataView['account']->$accountId->name . '</td>';
           echo '<td>' . $date->account_address . '</td>';
           echo '<td>' . $dataView['formateurs']->$formateurId->first_name . ' ' . $dataView['formateurs']->$formateurId->last_name . '</td>';
           echo '</tr>';

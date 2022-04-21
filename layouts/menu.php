@@ -32,7 +32,7 @@ if (isset($_REQUEST['lang']) && !empty($_REQUEST['lang'])) {
           </li>
          
           
-          <?php if(appHelperRole_isGranted("administrator") || appHelperRole_isGranted("learner"))
+          <?php if(appHelperRole_isGranted("administrator") || appHelperRole_isGranted("learner") || appHelperRole_isGranted("client") )
           {
             ?>
           <li class="nav-item">
@@ -40,6 +40,12 @@ if (isset($_REQUEST['lang']) && !empty($_REQUEST['lang'])) {
                                                 echo 'active';
                                               } ?>" href="<?= appHelperUrl_link($_REQUEST['lang'], 'session', 'index'); ?>">
                                               <i class="fa fa-list"></i>&nbsp;<?= $app_lang['mod_session']; ?></a>
+          </li>
+          <li class="nav-item">
+            <a rel="noopener" class="nav-link <?php if ($module == "invoice") {
+                                                echo 'active';
+                                              } ?>" href="<?= appHelperUrl_link($_REQUEST['lang'], 'invoice', 'index'); ?>">
+                                              <i class="fa-solid fa-file-invoice"></i>&nbsp;<?= $app_lang['mod_invoice']; ?></a>
           </li>
           <?php
             }

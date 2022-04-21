@@ -22,8 +22,14 @@ trait DetailTrait
 
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$data = urlencode(json_encode($_POST));
-			$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionCapture";
-			$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=portalSessionSetDetail&id=" . $dataView['id'] . "&data=" . $data;
+			$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
+			$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'];
+			$webserviceUrl .= "&bns_action=portalSessionSetDetail";
+			$webserviceUrl .= "&session_id=" . $dataView['id'];
+			$webserviceUrl .= "&contact_id=" . $_SESSION['user_id_ext'];
+			$webserviceUrl .= "&role=".json_decode($_SESSION['user_roles'])[0];
+			$webserviceUrl .= "&agency_code=" . $app_config['sugar_bns_company_code'];
+			$webserviceUrl .= "&data=" . $data;
 			$webserviceResult = Webservice::http($webserviceUrl);
 			$_SESSION['flash'] = array('type'=>'warning','message'=>'Error: '.print_r($webserviceResult,true));
 			if ($webserviceResult == 1) {
@@ -31,8 +37,13 @@ trait DetailTrait
 			}
 		}
 	
-		$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServiceSessionCapture";
-		$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=portalSessionGetDetail&id=" . $dataView['id'];
+		$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
+		$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'];
+		$webserviceUrl .= "&bns_action=portalSessionGetDetail";
+		$webserviceUrl .= "&session_id=" . $dataView['id'];
+		$webserviceUrl .= "&contact_id=" . $_SESSION['user_id_ext'];
+		$webserviceUrl .= "&role=".json_decode($_SESSION['user_roles'])[0];
+		$webserviceUrl .= "&agency_code=" . $app_config['sugar_bns_company_code'];
 		$webserviceObj = Webservice::http($webserviceUrl);
 
 		if (!empty($webserviceObj->session->id)) {
