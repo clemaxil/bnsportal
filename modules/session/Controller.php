@@ -41,6 +41,7 @@ class SessionController extends Controller
 		global $app_config;
 		$this->dataView['id'] = $_REQUEST['id'];
 		$this->dataView['lang'] = $_REQUEST['lang'];
+		$this->dataView['status'] = (!empty($_REQUEST['status'])) ? $_REQUEST['status'] : '';
 		$this->dataView['error'] = 0;
 
 		if (empty($_SESSION['user_id'])) {
@@ -57,9 +58,13 @@ class SessionController extends Controller
 			$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
 			$webserviceUrl .= "&key=" . $app_config['sugar_webservice_key'] . "&bns_action=getSessionsList";
 			$webserviceUrl .= "&contact_id=" . $_SESSION['user_id_ext'];
+			if( !empty($this->dataView['status'])){
+				$webserviceUrl .= "&status=".$this->dataView['status'];
+			}
 			$webserviceUrl .= "&agence_id=" . $app_config['sugar_bns_company_code'];
 			$webserviceUrl .= "&role=".json_decode($_SESSION['user_roles'])[0];
 			$webserviceObj = Webservice::curl($webserviceUrl);
+			
 			if (!empty($webserviceObj)) {
 				$this->dataView['sessions'] = $webserviceObj;
 			} else {

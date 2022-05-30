@@ -47,4 +47,23 @@ $mod_lang['document_all_files'] = 'All Files';
 $mod_lang['document_my_files'] = 'My Files';
 $mod_lang['document_add_file'] = 'Add file (pdf only)';
 
+
+$mod_lang['list_status_draft'] = 'Draft';
+$mod_lang['list_status_inprogress'] = 'In progress';
+$mod_lang['list_status_closed'] = 'Closed';
+$mod_lang['list_status_recorded'] = 'Recorded';
+$mod_lang['list_status_canceled'] = 'Canceled';
+
+$mod_lang['list_modalite_adistance'] = 'On line';
+$mod_lang['list_modalite_presentiel'] = 'On site';
+$mod_lang['list_modalite_elearning'] = 'E-learning';
+$mod_lang['list_modalite_blended'] = 'Blended Learning';
+
+
+$mod_lang['status_inprogress'] = 'Sessions in progress';
+$mod_lang['status_closed'] = 'Sessions closed';
+$mod_lang['status_planned'] = 'Sessions planned';
+$mod_lang['status_all'] = 'All sessions';
+
+
 return $mod_lang;

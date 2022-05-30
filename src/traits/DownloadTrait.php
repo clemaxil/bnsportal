@@ -40,6 +40,7 @@ trait DownloadTrait
 			}
 
 			$this->getDocument($document_webserviceUrl, $document_name, $dataView['id']);
+			$dataView['document_name'] = $document_name.'.pdf';
 		}
 		elseif(isset($_GET['invoice_id']) && !empty($_GET['invoice_id'])){
 			$webserviceUrl = $app_config['sugar_app_url'] . "/index.php?entryPoint=bnsWebServicePortalCapture";
@@ -56,9 +57,11 @@ trait DownloadTrait
 				}
 			}
 
-			$this->getDocument($document_webserviceUrl, $document_name, $dataView['id']);			
+			$this->getDocument($document_webserviceUrl, $document_name, $dataView['id']);
+			$dataView['document_name'] = $document_name.'.pdf';			
 		}
 	
+		
 		$view = new View();
 		$view->setView('modules/'.$dataView['module']. '/templates/download.php');
 		echo $view->render($dataView);

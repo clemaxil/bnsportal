@@ -14,7 +14,7 @@ class ContactsModel extends AppModel
 
     public function getContactByApiKey($apiKey)
 	{		
-        $sth = $this->db->prepare("SELECT id FROM contacts WHERE api_key LIKE :api_key AND deleted = 0 LIMIT 1");
+        $sth = $this->db->prepare("SELECT id FROM contacts WHERE api_key LIKE :api_key AND deleted_at = '' LIMIT 1");
         $sth->bindParam(':api_key', $apiKey, PDO::PARAM_STR);
         $sth->execute();
         return $sth->fetch(); 
@@ -57,10 +57,10 @@ class ContactsModel extends AppModel
 	{		        
         $sth = $this->db->prepare("INSERT INTO `contacts` (
             `id_ext`, `created_at`, `updated_at`, `first_name`, `last_name`, `email`, 
-            `phone_mobile`, `address_street`, `address_postalcode`, `address_city`, `address_country`, `birthdate`, `lang`, `calendars`) 
+            `phone_mobile`, `address_street`, `address_postalcode`, `address_city`, `address_country`, `birthdate`, `lang`, `calendars`, `roles`) 
             VALUES
             (:id_ext, now(), now(), :first_name, :last_name, :email,
-            :phone_mobile, :address_street, :address_postalcode, :address_city, :address_country, :birthdate, 'fr', :calendars)");
+            :phone_mobile, :address_street, :address_postalcode, :address_city, :address_country, :birthdate, 'fr', :calendars, :roles)");
 
         $sth->bindParam(':id_ext', $params->id_ext);
         $sth->bindParam(':first_name', $params->first_name, PDO::PARAM_STR);
@@ -73,6 +73,7 @@ class ContactsModel extends AppModel
         $sth->bindParam(':address_country', $params->address_country, PDO::PARAM_STR);
         $sth->bindParam(':birthdate', $params->birthdate);
         $sth->bindParam(':calendars', json_encode($params->calendars));
+        $sth->bindParam(':roles', json_encode($params->roles));
 
         $sth->execute();
         return($this->getById( $this->db->lastInsertId() ));       
@@ -100,7 +101,8 @@ class ContactsModel extends AppModel
 
     public function delete($id)
     {
-        $sth = $this->db->prepare("UPDATE contacts SET deleted='1' WHERE id = :id ");
+        $sth = $this->db->prepare("UPDATE contacts SET deleted_at = :date WHERE id = :id ");
+        $sth->bindParam(':date', date("Y-m-d H:i:s"));
         $sth->bindParam(':id', $id);
         $sth->execute();
         return( $this->getById($id) );      
@@ -113,7 +115,7 @@ class ContactsModel extends AppModel
         
         //var_dump( $params ) ;
         
-        $queryFields = "updated_at = now(), ";
+        $queryFields = "updated_at = now(), deleted_at = NULL, ";
         if( !empty($params->id_ext) ){ $queryFields .= "id_ext = :id_ext, "; }
         if( !empty($params->first_name) ){ $queryFields .= "first_name = :first_name, "; }
         if( !empty($params->last_name) ){ $queryFields .= "last_name = :last_name, "; }
@@ -125,6 +127,7 @@ class ContactsModel extends AppModel
         if( !empty($params->address_country) ){ $queryFields .= "address_country = :address_country, "; }
         if( !empty($params->birthdate) ){ $queryFields .= "birthdate = :birthdate, "; }
         if( !empty($params->calendars) ){ $queryFields .= "calendars = :calendars, "; }
+        if( !empty($params->roles) ){ $queryFields .= "roles = :roles, "; }
         
         $query = "UPDATE contacts SET ".substr($queryFields,0,-2)." WHERE id = :id ";
         $sth = $this->db->prepare($query);
@@ -141,6 +144,7 @@ class ContactsModel extends AppModel
         if( !empty($params->address_country) ){ $sth->bindParam(':address_country', $params->address_country, PDO::PARAM_STR); }
         if( !empty($params->birthdate) ){ $sth->bindParam(':birthdate', $params->birthdate); }
         if( !empty($params->calendars) ){ $sth->bindParam(':calendars', json_encode($params->calendars)); }
+        if( !empty($params->calendars) ){ $sth->bindParam(':roles', json_encode($params->roles)); }
 
         $sth->execute();
         return( $this->getById($id) ); 

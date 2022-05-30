@@ -7,9 +7,7 @@
                     </tr>
                     <tr>
                         <td style="text-align:center;">
-                            <a href="https://www.bluenote-systems.com" title="website" target="_blank">
-                                <img src="<?= $_SERVER['scheme'] . '://' . $_SERVER['HTTP_HOST'] . str_replace('index.php', '', $_SERVER['SCRIPT_NAME']); ?>assets/img/company_logo.png" title="logo" alt="logo">
-                            </a>
+                            <img src="<?= 'https://' . $_SERVER['HTTP_HOST'] . str_replace('index.php', '', $_SERVER['SCRIPT_NAME']); ?>assets/img/company_logo.png" title="logo" alt="logo">
                         </td>
                     </tr>
                     <tr>
@@ -42,7 +40,7 @@
                     </tr>
                     <tr>
                         <td style="text-align:center;">
-                            <p style="font-size:14px; color:#a8d5e5; line-height:18px; margin:0 0 0;">&copy; <strong>Bluenote Systems Academie</strong></p>
+                            <p style="font-size:14px; color:#a8d5e5; line-height:18px; margin:0 0 0;">&copy; <strong><?= $app_lang['brand']; ?></strong></p>
                         </td>
                     </tr>
                     <tr>

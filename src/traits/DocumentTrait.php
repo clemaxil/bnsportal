@@ -54,7 +54,7 @@ trait DocumentTrait
 				} else {
 					$tmp_name = $_FILES["formFile"]["tmp_name"];
 					$name = basename($_FILES["formFile"]["name"]);
-					move_uploaded_file($tmp_name, $upload_dir . $dataView['id'] . '/' . $_SESSION['user_id_ext'] . '/' . $name);
+					move_uploaded_file($tmp_name, $upload_dir . $dataView['id'] . '/' . $_SESSION['user_id_ext'] . '/_' . $name);
 					$upload_message = '<p class="text-success">' . $phpFileUploadErrors[$_FILES['formFile']['error']] . '</p>';
 
 					//creation de la note avec le fichier dans le crm
@@ -67,11 +67,11 @@ trait DocumentTrait
 					$webserviceUrl .= "&agency_code=" . $app_config['sugar_bns_company_code'];
 					$webserviceUrl .= "&url=" . urlencode($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . str_replace('index.php', '', $_SERVER['SCRIPT_NAME']) . 'upload/session/' . $dataView['id'] . '/' . $_SESSION['user_id_ext'] . '/_' . $name);
 					$webserviceUrl .= "&name=" .urlencode($_FILES["formFile"]["name"]);
-					//echo $webserviceUrl;
+					// echo $webserviceUrl;
 					// echo "<pre>";
 					// print_r($_FILES);
 					// echo "</pre>";
-					//exit();
+					// exit();
 					Webservice::http($webserviceUrl);				}
 			}
 			$dataView['upload_message'] = $upload_message;
@@ -89,7 +89,11 @@ trait DocumentTrait
 		$webserviceObj = Webservice::http($webserviceUrl);	
 		//echo print_r($webserviceObj,true);
 		$dataView['documents'] = $webserviceObj;		
-
+		//echo $webserviceUrl;
+		// echo "<pre>";
+		// print_r($dataView['documents']);
+		// echo "</pre>";
+		// exit();
 
 		//list uploads directory
 		$dataView['uploads'] = [];

@@ -15,6 +15,17 @@ function appHelperI18n_convertDateFromTimezone($date,$timezone,$timezone_to,$for
 }
 
 
+function appHelperI18n_dateCreateFromFormat($dateSql,$userLang){
+	$output = $dateSql;
+	if($userLang=="fr"){
+		$date = DateTime::createFromFormat('Y-m-d', $dateSql);
+		$output = $date->format('d/m/Y');
+	}
+	return($output);
+} 
+
+
+
 /**
  * 
  * @return void 

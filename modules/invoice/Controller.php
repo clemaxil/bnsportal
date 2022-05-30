@@ -61,6 +61,7 @@ class InvoiceController extends Controller
 			$webserviceUrl .= "&role=".json_decode($_SESSION['user_roles'])[0];
 
 			$webserviceObj = Webservice::curl($webserviceUrl);
+
 			if (!empty($webserviceObj)) {
 				$this->dataView['invoices'] = $webserviceObj;
 			} else {

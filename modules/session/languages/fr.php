@@ -49,4 +49,21 @@ $mod_lang['document_all_files'] = 'Tous les Fichiers';
 $mod_lang['document_my_files'] = 'Mes Fichiers';
 $mod_lang['document_add_file'] = 'Ajouter un fichier (seulement PDF)';
 
+
+$mod_lang['list_status_draft'] = 'Ebauche';
+$mod_lang['list_status_inprogress'] = 'En cours';
+$mod_lang['list_status_closed'] = 'Terminé';
+$mod_lang['list_status_recorder'] = 'Comptabilisé';
+$mod_lang['list_status_canceled'] = 'Annulé';
+
+$mod_lang['list_modalite_adistance'] = 'Stage à distance';
+$mod_lang['list_modalite_presentiel'] = 'Stage présentiel';
+$mod_lang['list_modalite_elearning'] = 'Stage e-learning';
+$mod_lang['list_modalite_blended'] = 'Stage blended-learning';
+
+$mod_lang['status_inprogress'] = 'Sessions en cours';
+$mod_lang['status_closed'] = 'Sessions terminées';
+$mod_lang['status_planned'] = 'Sessions planifiées';
+$mod_lang['status_all'] = 'Toutes les sessions';
+
 return $mod_lang;

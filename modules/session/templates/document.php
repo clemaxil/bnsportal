@@ -53,7 +53,7 @@ include __DIR__ . '/../../../layouts/menu.php';
 
         if (is_array($dataView['documents']) && count($dataView['documents']) > 0) {
           foreach ($dataView['documents'] as $document) {
-            echo '<li><i class="fas fa-file-pdf"></i> <a href="' . appHelperUrl_link($dataView['lang'], $dataView['module'], 'download', $dataView['id'], '&document_id=' . $document->id . '&document_name=' . $document->name) . '">' . str_replace("_"," ",$document->name). '</a></li>';
+            echo '<li><i class="fas fa-file-pdf"></i> <a href="' . appHelperUrl_link($dataView['lang'], $dataView['module'], 'download', $dataView['id'], '&document_id=' . $document->id . '&document_name=' . $document->name) . '">' . $document->display_name . '</a></li>';
           }
         }
 

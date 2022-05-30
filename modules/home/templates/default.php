@@ -21,9 +21,18 @@ if ($dataView['error'] === 1) {
     <div class="col-lg-4">
 
     <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
-        <div class="card-header">Total Sessions</div>
+        <div class="card-header"><?= $mod_lang['session_planned'] ?></div>
         <div class="card-body">
-            <h1 class="card-title"><?= $dataView['sessions']->total; ?></h1>
+            <?php 
+                if(appHelperRole_isGranted("client")){
+                    echo '<a href="'.appHelperUrl_link($lang, 'session', 'index', '', 'status=planned').'" style="color: white; text-decoration: none;">
+                            <h1 class="card-title">'.$dataView['sessions']->planned.'</h1>
+                        </a>';
+                }
+                else{
+                    echo '<h1 class="card-title">'.$dataView['sessions']->planned.'</h1>';
+                }
+            ?>            
         </div>
     </div>
 
@@ -32,9 +41,18 @@ if ($dataView['error'] === 1) {
     <div class="col-lg-4">
 
     <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
-        <div class="card-header">Sessions programmées</div>
+        <div class="card-header"><?= $mod_lang['session_inprogress'] ?></div>
         <div class="card-body">
-            <h1 class="card-title"><?= $dataView['sessions']->inprogress; ?></h1>
+            <?php 
+                if(appHelperRole_isGranted("client")){
+                    echo '<a href="'.appHelperUrl_link($lang, 'session', 'index', '', 'status=inprogress').'" style="color: white; text-decoration: none;">
+                            <h1 class="card-title">'.$dataView['sessions']->inprogress.'</h1>
+                        </a>';
+                }
+                else{
+                    echo '<h1 class="card-title">'.$dataView['sessions']->inprogress.'</h1>';
+                }
+            ?>  
         </div>
     </div>
 
@@ -43,9 +61,18 @@ if ($dataView['error'] === 1) {
     <div class="col-lg-4">
 
     <div class="card text-white bg-primary mb-3" style="max-width: 30rem;">
-        <div class="card-header">Sessions terminées</div>
+        <div class="card-header"><?= $mod_lang['session_closed'] ?></div>
         <div class="card-body">
-            <h1 class="card-title"><?= $dataView['sessions']->closed; ?></h1>            
+            <?php 
+                if(appHelperRole_isGranted("client")){
+                    echo '<a href="'.appHelperUrl_link($lang, 'session', 'index', '', 'status=closed').'" style="color: white; text-decoration: none;">
+                            <h1 class="card-title">'.$dataView['sessions']->closed.'</h1>
+                        </a>';
+                }
+                else{
+                    echo '<h1 class="card-title">'.$dataView['sessions']->closed.'</h1>';
+                }
+            ?>    
         </div>
     </div>
 
