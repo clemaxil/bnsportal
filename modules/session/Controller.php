@@ -69,7 +69,7 @@ class SessionController extends Controller
 				$this->dataView['sessions'] = $webserviceObj;
 			} else {
 				$this->dataView['error'] = 1;
-				$this->dataView['error-message'] = "Get webservice not found.";
+				$this->dataView['error-message'] = "No session found or Get webservice not found.";
 			}
 			
 			$view = new View();

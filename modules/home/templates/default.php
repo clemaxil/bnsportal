@@ -24,7 +24,7 @@ if ($dataView['error'] === 1) {
         <div class="card-header"><?= $mod_lang['session_planned'] ?></div>
         <div class="card-body">
             <?php 
-                if(appHelperRole_isGranted("client")){
+                if(appHelperRole_isGranted("client") && $dataView['sessions']->planned != 0 ){
                     echo '<a href="'.appHelperUrl_link($lang, 'session', 'index', '', 'status=planned').'" style="color: white; text-decoration: none;">
                             <h1 class="card-title">'.$dataView['sessions']->planned.'</h1>
                         </a>';
@@ -44,7 +44,7 @@ if ($dataView['error'] === 1) {
         <div class="card-header"><?= $mod_lang['session_inprogress'] ?></div>
         <div class="card-body">
             <?php 
-                if(appHelperRole_isGranted("client")){
+                if(appHelperRole_isGranted("client") && $dataView['sessions']->inprogress != 0 ){
                     echo '<a href="'.appHelperUrl_link($lang, 'session', 'index', '', 'status=inprogress').'" style="color: white; text-decoration: none;">
                             <h1 class="card-title">'.$dataView['sessions']->inprogress.'</h1>
                         </a>';
@@ -64,7 +64,7 @@ if ($dataView['error'] === 1) {
         <div class="card-header"><?= $mod_lang['session_closed'] ?></div>
         <div class="card-body">
             <?php 
-                if(appHelperRole_isGranted("client")){
+                if(appHelperRole_isGranted("client") && $dataView['sessions']->closed != 0 ){
                     echo '<a href="'.appHelperUrl_link($lang, 'session', 'index', '', 'status=closed').'" style="color: white; text-decoration: none;">
                             <h1 class="card-title">'.$dataView['sessions']->closed.'</h1>
                         </a>';
